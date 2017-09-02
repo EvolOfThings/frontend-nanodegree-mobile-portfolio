@@ -3,7 +3,7 @@ var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 var htmlMin = require('gulp-htmlmin');
 var inlineSource = require('gulp-inline-source');
-var imageOptim = require('gulp-image');
+var imagemin = require('gulp-imagemin');
 var jshint = require('gulp-jshint');
 var cache = require('gulp-cache');
 var responsive = require('gulp-responsive-images');
@@ -41,12 +41,13 @@ gulp.task('compact', function() {
         .pipe(gulp.dest('dist/views'));
 });
 
-
-gulp.task('imgs', function () {
-  return gulp.src(['src/img/*.png','src/img/*.jpg'])
-    .pipe(cache(imageOptim()))
+gulp.task('imgs', function() {
+  return gulp.src(['src/img/*.jpg','src/img/*.png'])
+    .pipe(imagemin())
     .pipe(gulp.dest('dist/img'));
 });
+
+
 
 gulp.task('pizzeriaViews', function() {
   return gulp.src('src/views/images/pizzeria.jpg')
@@ -59,13 +60,13 @@ gulp.task('pizzeriaViews', function() {
     .pipe(gulp.dest('dist/views/images'));
 })
 
-// this to be run after index task for the changed image width
-
 gulp.task('imagesViews', function () {
   return gulp.src(['src/views/images/*.png','src/views/images/*.jpg'])
-    .pipe(cache(imageOptim()))
+    .pipe(imagemin())
     .pipe(gulp.dest('dist/views/images'));
 });
+
+
 
 
 gulp.task('lint', function() {
@@ -74,7 +75,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('default',['scripts','styles','compact','imgs','pizzeriaViews','lint', 'imagesViews']);
+gulp.task('default',['scripts','styles','compact', 'imgs' , 'pizzeriaViews','imagesViews' ,'lint']);
 
 
 
