@@ -14,7 +14,7 @@ gulp.task('scripts', function() {
     gulp.src('src/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
-    gulp.src('views/js/*.js')
+    gulp.src('src/views/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/views/js'));
 });
