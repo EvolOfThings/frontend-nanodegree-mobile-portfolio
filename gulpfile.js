@@ -10,11 +10,12 @@ var responsive = require('gulp-responsive-images');
 
 
 
+
 gulp.task('scripts', function() {
     gulp.src('src/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
-    gulp.src('src/views/js/*.js')
+    gulp.src('src/views/js/main.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/views/js'));
 });
@@ -65,6 +66,7 @@ gulp.task('imagesViews', function () {
     .pipe(imagemin())
     .pipe(gulp.dest('dist/views/images'));
 });
+
 
 
 
