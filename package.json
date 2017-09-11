@@ -28,6 +28,7 @@
     "gulp-jshint": "^2.0.4",
     "gulp-responsive-images": "0.0.3",
     "gulp-uglify": "^2.1.2",
+    "gulp-util": "^3.0.8",
     "jshint": "^2.9.4",
     "run-sequence": "^1.2.2"
   },
