@@ -7,7 +7,7 @@ var imagemin = require('gulp-imagemin');
 var jshint = require('gulp-jshint');
 var cache = require('gulp-cache');
 var responsive = require('gulp-responsive-images');
-
+var pump = require('pump');
 
 
 
@@ -15,9 +15,20 @@ gulp.task('scripts', function() {
     gulp.src('src/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
-    gulp.src('src/views/js/main.js')
-        .pipe(uglify())
-        .pipe(gulp.dest('dist/views/js'));
+    // gulp.src('src/views/js/main.js')
+    //     .pipe(uglify())
+    //     .pipe(gulp.dest('dist/views/js'));
+});
+
+
+gulp.task('compressViews', function (cb) {
+  pump([
+        gulp.src('src/views/js/main.js'),
+        uglify(),
+        gulp.dest('dist/views/js')
+    ],
+    cb
+  );
 });
 
 
@@ -77,7 +88,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('default',['scripts','styles','compact', 'imgs' , 'pizzeriaViews','imagesViews' ,'lint']);
+gulp.task('default',['scripts','compressViews','styles','compact', 'imgs' , 'pizzeriaViews','imagesViews' ,'lint']);
 
 
 
