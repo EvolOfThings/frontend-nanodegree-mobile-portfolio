@@ -450,7 +450,7 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   // repeated querySelectorALL for pizza container was replaced the variable pizzas and the variables were taken out of loop
   function changePizzaSizes(size) {
-    var pizzas = document.querySelectorAll(".randomPizzaContainer");
+    var pizzas = document.getElementsByClassName("randomPizzaContainer");
     var dx = determineDx(pizzas[0], size);
     var newwidth = (pizzas[0].offsetWidth + dx) + 'px';
 
@@ -537,10 +537,18 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
+/* To get rid off unneccessary number of pizzas (200) calculate the number of pizzas
+needed to fill the screen, based on browser window resolution
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var height = window.screen.height;
+  var rows = (Math.floor(height / s)); // to avoid decimal, Math.floor is used
+  var count = rows * cols;
+
+  for (var i = 0; i < count; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
