@@ -26,3 +26,30 @@ Some useful tips to help you get started:
   ```
 
 Copy the public URL ngrok gives you and try running it through PageSpeed Insights!
+
+
+#### Part 2: Optimizing pizza.html to render with 60fps when scrolling
+
+###### Minor Optimizations
+
+1.HTML/CS/JS are minified.
+2.Inlined render blocking CSS.
+3.Google Analytics script loaded asynchronously via async attribute.
+
+###### Image Resize:
+
+1. With help of gulp responsive plug-in pizzeria.jpg was resized into two images.
+2. The images were further optimized via gulp imagemin.
+
+###### Forced synchronous layout:
+
+1.The pizzas in the background move when scrolling, it is done by a function which was triggerring the forced synchronous layout.
+2.The updatePositions function was accessing DOM elements every time the function was called.
+
+###### Pizza resize slider:
+
+1.The resizing of pizza was also causing forced synchronous layout due to variables called in the loop.
+2.Variable declarations are moved out of for-loop.
+3.querySelector/querySelectorAll replaced with getElementById/getElementsByClassName.
+3.getElement is also moved out of the loop so that it's not repeatedly called and appended.
+
