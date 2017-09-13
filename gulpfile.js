@@ -15,13 +15,10 @@ gulp.task('scripts', function() {
     gulp.src('src/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
-    // gulp.src('src/views/js/main.js')
-    //     .pipe(uglify())
-    //     .pipe(gulp.dest('dist/views/js'));
 });
 
 
-gulp.task('compressViews', function (cb) {
+gulp.task('scriptsViews', function (cb) {
   pump([
         gulp.src('src/views/js/main.js'),
         uglify(),
@@ -55,30 +52,37 @@ gulp.task('compact', function() {
 
 gulp.task('imgs', function() {
   return gulp.src(['src/img/*.jpg','src/img/*.png'])
-    .pipe(imagemin())
+    .pipe(imagemin([
+          imagemin.jpegtran({progressive: true}),
+          imagemin.optipng({optimizationLevel: 5})
+    ]))
     .pipe(gulp.dest('dist/img'));
 });
 
 
+// producing two images of different sizes from same source
 
-gulp.task('pizzeriaViews', function() {
+gulp.task('pizzeriaResize', function() {
   return gulp.src('src/views/images/pizzeria.jpg')
     .pipe(responsive({
-      'pizzeria.jpg': {
+      'pizzeria.jpg': [
+      {
         width: 100,
-        suffix: '-100'
-      }
-    }))
-    .pipe(gulp.dest('dist/views/images'));
+        suffix: '-100',
+      },{
+        width: '20%',
+        rename: 'pizzeria-small.jpg'
+    }
+    ]
+  }))
+    .pipe(gulp.dest('src/views/images')); // saved back in source dir
 })
 
 gulp.task('imagesViews', function () {
-  return gulp.src(['src/views/images/*.png','src/views/images/*.jpg'])
+  return gulp.src(['src/views/images/*.png', 'src/views/images/*.jpg'])
     .pipe(imagemin())
     .pipe(gulp.dest('dist/views/images'));
 });
-
-
 
 
 
@@ -88,7 +92,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('default',['scripts','compressViews','styles','compact', 'imgs' , 'pizzeriaViews','imagesViews' ,'lint']);
+gulp.task('default',['scripts','scriptsViews','styles','compact', 'imgs', 'pizzeriaResize','imagesViews' ,'lint']);
 
 
 
