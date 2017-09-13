@@ -507,9 +507,21 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+
+//items is being re-created and re-assigned and re-calculated every time that updatePositions runs.
+
+  var items = document.getElementsByClassName('mover');
+
+  /*  To make the page render faster,
+      we avoid doing unnecessary work repeatedly
+      by moving DOM access and other calculations
+      out of loop as much as possible.
+  */
+  var ScrollTopPix = (document.body.scrollTop / 1250);
+  var cachedLength = items.length;
+
+  for (var i = 0, phase; i < cachedLength; i++) {
+    phase = Math.sin(ScrollTopPix + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
