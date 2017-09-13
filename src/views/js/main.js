@@ -512,10 +512,8 @@ function updatePositions() {
 
   var items = document.getElementsByClassName('mover');
 
-  /*  To make the page render faster,
-      we avoid doing unnecessary work repeatedly
-      by moving DOM access and other calculations
-      out of loop as much as possible.
+  /*  The calculations and repeated DOM access is making the page render slow,
+      so it's taken out of loop.
   */
   var ScrollTopPix = (document.body.scrollTop / 1250);
   var cachedLength = items.length;
